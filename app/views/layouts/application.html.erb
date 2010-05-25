@@ -1,60 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  
-  <title><%= yield(:title) ? yield(:title) + " :: HHLinuxClub" : "HHLinuxClub"%></title>
+  <head>
+    <meta charset="utf-8" />
+    
+    <title><%= yield(:title) ? yield(:title) + " :: HHLinuxClub" : "HHLinuxClub"%></title>
 
-  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-  <%= stylesheet_link_tag "frontend" %>
-  
-  <%= render :partial => "layouts/stylesheets" %>
-  <%= render :partial => "layouts/javascript" %>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    
+    <%= stylesheet_link_tag("reset", "text", "960", "colorbox", "password_strength_plugin",	"markitup",	"markitup.textile", "application") %>
+    <%= render :partial => "layouts/javascript" %>
 
-  <% if controller.controller_name == "home" %>
-      <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/news.atom", {:title => "News"}) %>
-      <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/articles.atom", {:title => "Articles"}) %>
-      <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/events.atom", {:title => "Events"}) %>
-  <% elsif %w[news articles events].include? controller.controller_name %>
-      <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/#{controller.controller_name}.atom", {:title => controller.controller_name.capitalize}) %>
-  <% end %>
-
-  <link rel="icon" type="image/png" href="/favicon.ico"/>
-</head>
-<body>
-<div id="header_container">
-  <div id="header">
-    <h1>HAAGA-HELIA Linux Club</h1>
-
-    <div id="header_left">
-      <%= render :partial => "/users/userlinks" %>
-    </div>
-    <div id="header_right">
-      <div id="navigation">
-        <%= navigation("home", "news", "articles", "events", "galleries", "about", "contact") %>
-      </div>
-
-      <div id="flash">
-        <span id="flashNotice"><%= flash[:notice] %></span>
-        <span id="flashError"><%= flash[:error] %></span>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="container">
-  <div id="content" class="<%= controller.controller_name.to_s unless admin_namespace? %>">
-    <% if yield(:title) %>
-      <h2 class="title"><%= yield(:title) %></h2>
+    <% if controller.controller_name == "home" %>
+        <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/news.atom", {:title => "News"}) %>
+        <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/articles.atom", {:title => "Articles"}) %>
+        <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/events.atom", {:title => "Events"}) %>
+    <% elsif %w[news articles events].include? controller.controller_name %>
+        <%= auto_discovery_link_tag(:atom, "http://#{self.request.host_with_port}/#{controller.controller_name}.atom", {:title => controller.controller_name.capitalize}) %>
     <% end %>
-    <%= yield %>
-  </div>
-  <div id="footer">
-    <%= FOOTER %>
-  </div>
-</div>
-<%= render :partial => "layouts/analytics" %>
-</body>
+
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+  </head>
+  <body>
+    <div class="container_12">
+      <h1>HAAGA-HELIA Linux Club</h1>
+      <div>
+          <%= render :partial => "/users/userlinks" %>
+      </div>
+      <div>
+         <%= navigation("home", "news", "articles", "events", "galleries", "about", "contact") %>
+      </div>
+      
+      <div>
+        <div id="flash">
+          <span id="flashNotice"><%= flash[:notice] %></span>
+          <span id="flashError"><%= flash[:error] %></span>
+        </div>
+        
+        <% if yield(:title) %>
+          <h2 class="title"><%= yield(:title) %></h2>
+        <% end %>
+        
+        <%= yield %>
+      </div>
+      <div>
+        <%= FOOTER %>
+      </div>
+    </div>
+    <%= render :partial => "layouts/analytics" %>
+  </body>
 </html>
 
